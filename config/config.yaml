@@ -21,8 +21,8 @@ reference:
   fai: "/data/Twist_DNA/BWA_0.7.10_refseq/hg19.with.mt.fai"
   pac: "/data/Twist_DNA/BWA_0.7.10_refseq/hg19.with.mt.pac"
   sa: "/data/Twist_DNA/BWA_0.7.10_refseq/hg19.with.mt.sa"
-  design_bed: "/home/lauri/Desktop/qiagen_qc/reference/QIAseq_DNA_panel.CDHS-42409Z-9864.roi.bed"
-  design_intervals: "/home/lauri/Desktop/qiagen_qc/reference/QIAseq_DNA_panel.CDHS-42409Z-9864.roi.interval_list"
+  design_bed: "/home/lauri/Desktop/qiaseq_qc/reference/QIAseq_DNA_panel.CDHS-42409Z-9864.roi.bed"
+  design_intervals: "/home/lauri/Desktop/qiaseq_qc/reference/QIAseq_DNA_panel.CDHS-42409Z-9864.roi.interval_list"
   skip_chrs:
     - "chrM"
     - "chrY"
