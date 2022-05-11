@@ -7,31 +7,60 @@ include: "rules/common.smk"
 
 report: "report/workflow.rst"
 
-rule dummy:
+
+rule copy_results_files:
+    input:
+        input_files,
     output:
-        "qiaseq_qc/dummy/{sample}_{type}.dummy.txt"
-    params:
-        extra=config.get("dummy", {}).get("extra", ""),
-    log:
-        "qiaseq_qc/dummy/{sample}_{type}.output.log"
-    benchmark:
-       repeat("module/dummy/{sample}_{type}.output.benchmark.tsv", config.get("dummy", {}).get("benchmark_repeats", 1),)
-    threads: # optional
-       threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
+        output_files,
     resources:
-        threads=config.get("dummy", {}).get("threads", config["default_resources"]["threads"]),
-        time=config.get("dummy", {}).get("time", config["default_resources"]["time"]),
-    container:
-       config.get("dummy", {}).get("container", config["default_container"])
-    conda:
-       "../envs/dummy.yaml"
-    message:
-       "{rule}: Do stuff on module/{rule}/{wildcards.sample}_{wildcards.type}.input"
-    shell:
-        """
-        touch {output}
-        """
+        threads=config.get("copy_results_files", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("copy_results_files", {}).get("time", config["default_resources"]["time"]),
+        mem_mb=config.get("copy_results_files", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("copy_results_files", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("copy_results_files", {}).get("partition", config["default_resources"]["partition"]),
+    run:
+        import subprocess
+        i = 0
+        for file in input:
+            subprocess.run(["cp", file, output[i]])
+            i += 1
+
 
 rule all:
     input:
         unpack(compile_output_list),
+
+module prealignment:
+    snakefile:
+        "/home/lauri/Desktop/hydra-genetics_prealignment/workflow/Snakefile"
+    config:
+        config
+
+use rule * from prealignment as prealignment_*
+
+
+module alignment:
+    snakefile:
+        github("hydra-genetics/alignment", path="workflow/Snakefile", tag="v0.1.0")
+    config:
+        config
+
+use rule * from alignment as alignment_*
+
+
+module qc:
+    snakefile:
+        "/home/lauri/Desktop/hydra-genetics_qc/workflow/Snakefile"
+    config:
+        config
+
+use rule * from qc as qc_*
+
+module snv_indels:
+    snakefile:
+            "/home/lauri/Desktop/hydra-genetics_snv_indels/workflow/Snakefile"
+    config:
+        config
+
+use rule * from snv_indels as snv_indels_*

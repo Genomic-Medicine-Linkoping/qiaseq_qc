@@ -6,3 +6,29 @@ default_resources:
   mem_mb: 1024
   mem_per_cpu: 3072
   partition: core
+
+fastqc:
+  threads: 10
+
+bwa_mem:
+  threads: 80
+  time: "8:00:00"
+
+fastp_pe:
+  threads: 80
+
+mutect2:
+  time: "8:00:00"
+
+mutect2_gvcf:
+  time: "8:00:00"
+
+vardict:
+  time: "16:00:00"
+
+vep:
+  threads: 30
+
+gene_fuse:
+  threads: 16
+  time: "8:00:00"
