@@ -5,7 +5,7 @@ SHELL = /bin/bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-# The conda env definition file "requirements.yml" is located in the project's root directory
+# The conda env definition file "env.yml" is located in the project's root directory
 CURRENT_CONDA_ENV_NAME = qiaseq_qc
 ACTIVATE_CONDA = source $$(conda info --base)/etc/profile.d/conda.sh
 CONDA_ACTIVATE = $(ACTIVATE_CONDA) ; conda activate ; conda activate $(CURRENT_CONDA_ENV_NAME)
